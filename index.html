@@ -19,7 +19,19 @@
     x-data="{ page: 'home', 'darkMode': true, 'stickyMenu': false, 'navigationOpen': false, 'scrollTop': false }"
     x-init="
          darkMode = JSON.parse(localStorage.getItem('darkMode'));
-         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))
+         
+         const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    page = entry.target.id;
+                }
+            });
+          }, { threshold: 0.6 }); 
+
+          document.querySelectorAll('section[id]').forEach(section => {
+              observer.observe(section);
+          });"
     :class="{'b eh': darkMode === true}"
   >
     <!-- ===== Header Start ===== -->
@@ -84,16 +96,20 @@
           <nav>
             <ul class="tc _o sf yo cg ep">
               <li>
-                <a
-                  href="index.html"
-                  class="xl"
-                  :class="{ 'mk': page === 'home' }"
-                  >Beranda</a
-                >
+                  <a href="index.html" class="xl" 
+                    :class="{ 'mk': page === 'beranda' }"
+                    @click="page = 'beranda'">Beranda</a>
               </li>
-              <!-- <li><a href="index.html#features" class="xl">Features</a></li> -->
-              <li><a href="index.html#mengapa_kami" class="xl">Mengapa Kami</a></li>
-              <li><a href="index.html#mengapa_kami" class="xl">Layanan</a></li>
+              <li>
+                  <a href="index.html#mengapa_kami" class="xl" 
+                    :class="{ 'mk': page === 'mengapa_kami' }"
+                    @click="page = 'mengapa_kami'">Mengapa Kami</a>
+              </li>
+              <li>
+                  <a href="index.html#layanan" class="xl" 
+                    :class="{ 'mk': page === 'layanan' }"
+                    @click="page = 'layanan'">Layanan</a>
+              </li>
               <li class="c i" x-data="{ dropdown: false }">
                 <a
                   href="#"
@@ -160,8 +176,11 @@
                 </ul>
                 <!-- Dropdown End -->
               </li>              
-              <li><a href="index.html#support" class="xl">Hubungi Kami</a></li>
-              <!-- <li><a href="index.html#support" class="xl">Support</a></li> -->
+              <li>
+                  <a href="index.html#hubungi_kami" class="xl" 
+                    :class="{ 'mk': page === 'hubungi_kami' }"
+                    @click="page = 'hubungi_kami'">Hubungi Kami</a>
+              </li>
             </ul>
           </nav>
 
@@ -208,7 +227,7 @@
 
     <main>
       <!-- ===== Hero Start ===== -->
-      <section class="gj do ir hj sp jr i pg">
+      <section id="beranda" class="gj do ir hj sp jr i pg">
         <!-- Hero Images -->
         <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
           <img
@@ -640,7 +659,7 @@ Dengan mengintegrasikan berbagai layanan ini di bawah satu atap, kami memastikan
       <!-- ===== Team End ===== -->
 
       <!-- ===== Services Start ===== -->
-      <section class="lj tp kr">
+      <section id="layanan" class="lj tp kr">
         <!-- Section Title Start -->
         <div
           x-data="{ sectionTitle: `Layanan`, sectionTitleText: `Kami percaya setiap bisnis berhak mendapatkan layanan yang profesional, tepat, dan berkelanjutan. Dari kebersihan, penyediaan tenaga kerja, hingga dukungan operasional, kami hadir untuk menjadi mitra yang dapat Anda andalkan.`}"
@@ -979,7 +998,7 @@ Dengan mengintegrasikan berbagai layanan ini di bawah satu atap, kami memastikan
       <!-- ===== Projects End ===== -->
 
       <!-- ===== Testimonials Start ===== -->
-      <section class="hj rp hr">
+      <section id="testimonial" class="hj rp hr">
         <!-- Section Title Start -->
         <div
           x-data="{ 
@@ -1188,12 +1207,12 @@ Dengan mengintegrasikan berbagai layanan ini di bawah satu atap, kami memastikan
 
       <!-- ===== Counter Start ===== -->
       <section class="i pg qh rm ji hp">
-        <!-- <img src="images/shape-11.svg" alt="Shape" class="of h ga ha ke" />
+        <img src="images/shape-11.svg" alt="Shape" class="of h ga ha ke" />
         <img src="images/shape-07.svg" alt="Shape" class="h ia o ae jf" />
         <img src="images/shape-14.svg" alt="Shape" class="h ja ka" />
         <img src="images/shape-15.svg" alt="Shape" class="h q p" />
 
-        <div class="bb ze i va ki xn br">
+        <!-- <div class="bb ze i va ki xn br">
           <div class="tc uf sn tn xf un gg">
             <div class="animate_top me/5 ln rj">
               <h2 class="gk vj zp or kk wm hc">785</h2>
@@ -1481,7 +1500,7 @@ Dengan mengintegrasikan berbagai layanan ini di bawah satu atap, kami memastikan
       <!-- ===== Blog End ===== -->
 
       <!-- ===== Contact Start ===== -->
-      <section id="support" class="i pg fh rm ji gp uq">
+      <section id="hubungi_kami" class="i pg fh rm ji gp uq">
         <!-- Bg Shapes -->
         <img src="images/shape-06.svg" alt="Shape" class="h aa y" />
         <img src="images/shape-03.svg" alt="Shape" class="h ca u" />
